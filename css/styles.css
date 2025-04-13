@@ -1,0 +1,123 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    color: #111;
+}
+
+body {
+  background: linear-gradient(to right, #000000 50%, #ff6600 50%);
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.card {
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  background-color: #fff;
+}
+
+.logo-img {
+  display: block;
+  margin: 0 auto 1rem auto;
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
+
+.login-container {
+    max-width: 400px;
+    margin: auto;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 1rem;
+    margin-top: 5rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.login-container input,
+.login-container button {
+    display: block;
+    width: 100%;
+    margin: 1rem 0;
+    padding: 0.8rem;
+    border-radius: 0.5rem;
+    border: 1px solid #ccc;
+}
+
+/* ✅ Afecta solo al formulario de jornada para que no interfiera en otros formularios */
+form.custom-form input,
+form.custom-form select,
+form.custom-form button {
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    border: 1px solid #ccc;
+    width: 100%; /* Asegura que se vean bien alineados */
+}
+
+/* Corrige el espaciado en columnas en pantallas grandes */
+form.custom-form .col-md-2,
+form.custom-form .col-md-3 {
+    min-width: 150px;
+}
+
+/* Cartas de gimnasios */
+.card {
+    margin-bottom: 1.5rem;
+}
+
+/* Botón de volver arriba */
+#scrollTopBtn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #0d6efd;
+    color: white;
+    border: none;
+    padding: 0.6rem 0.8rem;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: none;
+    z-index: 1000;
+}
+
+#scrollTopBtn:hover {
+    background-color: #084298;
+    transition: background-color 0.3s ease;
+}
+
+/* Estilos responsive */
+@media (max-width: 576px) {
+    /* Que las columnas del form ocupen todo el ancho */
+    form.row.gy-3 .col-md-2,
+    form.row.gy-3 .col-md-3,
+    form.row.gy-3 .col-md-4,
+    form.row.gy-3 .col-md-6 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    .btn {
+        font-size: 0.9rem;
+    }
+
+    .modal-content {
+        font-size: 0.95rem;
+    }
+
+    .table-responsive {
+        font-size: 0.9rem;
+    }
+
+    #scrollTopBtn {
+        bottom: 15px;
+        right: 15px;
+    }
+}
