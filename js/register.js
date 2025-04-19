@@ -2,6 +2,9 @@ import { auth, db } from './firebase-config.js';
 import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
+// Asegurate de tener SweetAlert2 cargado en tu HTML
+// <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 document.getElementById("registerForm").addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -14,7 +17,6 @@ document.getElementById("registerForm").addEventListener("submit", async (e) => 
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
-    // Guardamos los datos del profesor en Firestore
     await setDoc(doc(db, "usuarios", user.uid), {
       nombre,
       apellido,
@@ -22,9 +24,27 @@ document.getElementById("registerForm").addEventListener("submit", async (e) => 
       creadoEn: new Date()
     });
 
-    alert("Registro exitoso. Redirigiendo al dashboard...");
-    window.location.href = "dashboard.html";
+    // ✅ Éxito con Swal
+    Swal.fire({
+      icon: 'success',
+      title: 'Registro exitoso',
+      text: 'Serás redirigido al dashboard.',
+      confirmButtonColor: '#198754',
+      timer: 2500,
+      showConfirmButton: false
+    });
+
+    setTimeout(() => {
+      window.location.href = "dashboard.html";
+    }, 2500);
+
   } catch (error) {
-    alert("Error al registrar: " + error.message);
+    // ❌ Error con Swal
+    Swal.fire({
+      icon: 'error',
+      title: 'Error al registrar',
+      text: error.message,
+      confirmButtonColor: '#dc3545'
+    });
   }
 });

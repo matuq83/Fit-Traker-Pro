@@ -28,6 +28,9 @@ form.custom-form .col-md-3 {
     margin-bottom: 1.5rem;
 }
 
+.small, small {
+    color: #ff6600;
+}
 /* Botón de volver arriba */
 #scrollTopBtn {
     position: fixed;

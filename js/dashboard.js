@@ -14,6 +14,7 @@ import {
   deleteDoc,
   writeBatch
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import Swal from "https://cdn.jsdelivr.net/npm/sweetalert2@11/+esm";
 
 // 🌙 Modo oscuro persistente
 const body = document.getElementById("main-body");
@@ -37,7 +38,7 @@ darkBtn.addEventListener("click", () => {
 // 🔓 Cerrar sesión
 document.getElementById("logoutBtn").addEventListener("click", async () => {
   await signOut(auth);
-  window.location.href = "login.html";
+  window.location.href = "index.html";
 });
 
 // Verificar usuario y cargar gimnasios
@@ -81,7 +82,16 @@ onAuthStateChanged(auth, async (user) => {
 
 // ➕ Crear gimnasio
 document.getElementById("addGymBtn").addEventListener("click", async () => {
-  const nombre = prompt("Ingrese el nombre del Establecimiento:");
+  const { value: nombre } = await Swal.fire({
+    title: "Nuevo Establecimiento",
+    input: "text",
+    inputLabel: "Nombre del Establecimiento",
+    inputPlaceholder: "Ej: Power Gym",
+    showCancelButton: true,
+    confirmButtonText: "Crear",
+    cancelButtonText: "Cancelar"
+  });
+
   if (!nombre) return;
 
   const user = auth.currentUser;
@@ -93,18 +103,27 @@ document.getElementById("addGymBtn").addEventListener("click", async () => {
       creadoEn: new Date()
     });
 
-    alert("¡Establecimiento creado!");
-    location.reload();
+    Swal.fire("¡Creado!", "Establecimiento creado exitosamente", "success").then(() => {
+      location.reload();
+    });
   } catch (error) {
     console.error("Error al crear establecimiento:", error.message);
-    alert("No se pudo crear el Establecimiento. Verificá permisos en Firebase.");
+    Swal.fire("Error", "No se pudo crear el Establecimiento. Verificá permisos en Firebase.", "error");
   }
 });
 
 // ❌ Eliminar gimnasio y sus jornadas asociadas
 window.eliminarGimnasio = async (gymId) => {
-  const confirmar = confirm("¿Querés eliminar este establecimiento y todas sus jornadas?");
-  if (!confirmar) return;
+  const confirmar = await Swal.fire({
+    title: "¿Estás seguro?",
+    text: "Se eliminará el gimnasio y todas sus jornadas asociadas",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Sí, eliminar",
+    cancelButtonText: "Cancelar"
+  });
+
+  if (!confirmar.isConfirmed) return;
 
   try {
     const jornadasSnap = await getDocs(query(collection(db, "jornadas"), where("gimnasioId", "==", gymId)));
@@ -114,11 +133,12 @@ window.eliminarGimnasio = async (gymId) => {
 
     await deleteDoc(doc(db, "gimnasios", gymId));
 
-    alert("Establecimiento y jornadas eliminados correctamente.");
-    location.reload();
+    Swal.fire("Eliminado", "Establecimiento y jornadas eliminados correctamente.", "success").then(() => {
+      location.reload();
+    });
   } catch (error) {
     console.error("Error eliminando establecimiento:", error);
-    alert("No se pudo eliminar. Verificá permisos en Firestore.");
+    Swal.fire("Error", "No se pudo eliminar. Verificá permisos en Firestore.", "error");
   }
 };
 

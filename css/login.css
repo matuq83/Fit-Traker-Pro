@@ -9,6 +9,7 @@ body {
 }
 
 .card {
+    color: #353535;
     border-radius: 1rem;
     padding: 2rem;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
@@ -16,10 +17,11 @@ body {
 }
 
 .logo-img {
+    border-radius: 50px;
     display: block;
     margin: 0 auto 1rem auto;
-    width: 50px;
-    height: 50px;
+    width: 80px;
+    height: 80px;
     object-fit: contain;
 }
 
@@ -41,4 +43,8 @@ body {
     padding: 0.8rem;
     border-radius: 0.5rem;
     border: 1px solid #ccc;
+}
+
+p {
+    color: #ccc;
 }

@@ -11,13 +11,12 @@ import {
   Timestamp
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import Swal from "https://cdn.jsdelivr.net/npm/sweetalert2@11/+esm";
 
-// Obtener ID de gimnasio desde la URL
 const urlParams = new URLSearchParams(window.location.search);
 const gymId = urlParams.get("gym");
 if (!gymId) window.location.href = "dashboard.html";
 
-// 🧮 Calcular total
 function calcularTotal(horaInicio, horaFin, precioHora) {
   const inicio = new Date(`1970-01-01T${horaInicio}:00`);
   const fin = new Date(`1970-01-01T${horaFin}:00`);
@@ -26,7 +25,6 @@ function calcularTotal(horaInicio, horaFin, precioHora) {
   return Math.round(horas * parseFloat(precioHora));
 }
 
-// 📤 Agregar jornada
 document.getElementById("jornadaForm").addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -35,7 +33,6 @@ document.getElementById("jornadaForm").addEventListener("submit", async (e) => {
   const horaFin = document.getElementById("horaFin").value;
   const precioHora = parseFloat(document.getElementById("precioHora").value);
   const total = calcularTotal(horaInicio, horaFin, precioHora);
-
   const user = auth.currentUser;
 
   await addDoc(collection(db, "jornadas"), {
@@ -53,7 +50,6 @@ document.getElementById("jornadaForm").addEventListener("submit", async (e) => {
   cargarJornadas();
 });
 
-// 🔄 Cargar jornadas
 async function cargarJornadas() {
   const tbody = document.getElementById("jornadasBody");
   tbody.innerHTML = "";
@@ -80,7 +76,6 @@ async function cargarJornadas() {
   });
 }
 
-// ✏️ Editar jornada
 window.editar = (id, fecha, inicio, fin, precio) => {
   document.getElementById("editId").value = id;
   document.getElementById("editFecha").value = fecha;
@@ -90,7 +85,6 @@ window.editar = (id, fecha, inicio, fin, precio) => {
   new bootstrap.Modal(document.getElementById("editModal")).show();
 };
 
-// 💾 Guardar cambios
 document.getElementById("editForm").addEventListener("submit", async (e) => {
   e.preventDefault();
   const id = document.getElementById("editId").value;
@@ -107,18 +101,32 @@ document.getElementById("editForm").addEventListener("submit", async (e) => {
   cargarJornadas();
 });
 
-// ❌ Eliminar jornada individual
 window.eliminar = async (id) => {
-  const confirmacion = confirm("¿Estás seguro de eliminar esta jornada?");
-  if (!confirmacion) return;
+  const confirmacion = await Swal.fire({
+    title: "¿Eliminar jornada?",
+    text: "Esta acción no se puede deshacer.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Sí, eliminar",
+    cancelButtonText: "Cancelar"
+  });
+
+  if (!confirmacion.isConfirmed) return;
   await deleteDoc(doc(db, "jornadas", id));
   cargarJornadas();
 };
 
-// ❌ Eliminar todas las jornadas del gimnasio
 window.eliminarTodasLasJornadas = async () => {
-  const confirmacion = confirm("⚠️ Se eliminarán TODAS las jornadas de este gimnasio. ¿Continuar?");
-  if (!confirmacion) return;
+  const confirmacion = await Swal.fire({
+    title: "¿Eliminar todas las jornadas?",
+    text: "Se eliminarán todas las jornadas de este gimnasio.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Sí, eliminar",
+    cancelButtonText: "Cancelar"
+  });
+
+  if (!confirmacion.isConfirmed) return;
 
   const q = query(collection(db, "jornadas"), where("uidProfesor", "==", auth.currentUser.uid), where("gimnasioId", "==", gymId));
   const snapshot = await getDocs(q);
@@ -129,11 +137,10 @@ window.eliminarTodasLasJornadas = async () => {
   });
 
   await Promise.all(eliminaciones);
-  alert("Todas las jornadas fueron eliminadas.");
+  Swal.fire("Eliminadas", "Todas las jornadas fueron eliminadas.", "success");
   cargarJornadas();
 };
 
-// 📤 Exportar a Excel
 window.exportarExcel = () => {
   const table = document.querySelector("table");
   const tableClone = table.cloneNode(true);
@@ -150,7 +157,6 @@ window.exportarExcel = () => {
   XLSX.writeFile(wb, nombreArchivo);
 };
 
-// 🔐 Verificación de sesión
 onAuthStateChanged(auth, (user) => {
   if (!user) {
     window.location.href = "login.html";
@@ -159,5 +165,4 @@ onAuthStateChanged(auth, (user) => {
   cargarJornadas();
 });
 
-// 🔝 Scroll arriba
 window.scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
