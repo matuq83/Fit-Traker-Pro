@@ -44,7 +44,7 @@ document.getElementById("logoutBtn").addEventListener("click", async () => {
 // Verificar usuario y cargar gimnasios
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
-    window.location.href = "login.html";
+    window.location.href = "index.html";
     return;
   }
 

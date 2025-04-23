@@ -1,82 +1,157 @@
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family:'Poppins' 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f8f9fa;
     color: #111;
+  }
+
+.logo-dash  {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50px;
 }
+  
+  span, .navbar-brand {
+    border-color: #111;
+    color: white;
+    font-family: 'Inter', sans-serif;
+    font-weight: bolder;
+  }
 
+  .navbar-brand {
+    margin: 1rem;
+    box-shadow:#000;
+  }
 
-/* ✅ Afecta solo al formulario de jornada para que no interfiera en otros formularios */
-form.custom-form input,
-form.custom-form select,
-form.custom-form button {
+  nav {
+    font-family: 'Inter', sans-serif;
+    margin-bottom: 1rem;
+    background-color: #ff6600;
+  }
+
+  h4 {
+    font-weight: bolder;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  h5 {
+    font-weight: bolder;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  /* Formulario específico de jornada */
+  form.custom-form input,
+  form.custom-form select,
+  form.custom-form button {
     padding: 0.75rem;
     border-radius: 0.5rem;
     border: 1px solid #ccc;
-    width: 100%; /* Asegura que se vean bien alineados */
-}
-
-/* Corrige el espaciado en columnas en pantallas grandes */
-form.custom-form .col-md-2,
-form.custom-form .col-md-3 {
+    width: 100%;
+  }
+  
+  form.custom-form .col-md-2,
+  form.custom-form .col-md-3 {
     min-width: 150px;
-}
-
-/* Cartas de gimnasios */
-.card {
+  }
+  
+  /* Cartas de gimnasios */
+  .card {
     margin-bottom: 1.5rem;
-}
-
-.small, small {
-    color: #ff6600;
-}
-/* Botón de volver arriba */
-#scrollTopBtn {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #0d6efd;
-    color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+  
+  /* Botón volver arriba */
+  #scrollTopBtn {
+    background: none;
     border: none;
-    padding: 0.6rem 0.8rem;
-    border-radius: 50%;
-    font-size: 1.2rem;
+    color: #ff6600;
+    font-size: 1.8rem;
     cursor: pointer;
-    display: none;
-    z-index: 1000;
-}
-
-#scrollTopBtn:hover {
-    background-color: #084298;
-    transition: background-color 0.3s ease;
-}
-
-/* Estilos responsive */
-@media (max-width: 576px) {
-    /* Que las columnas del form ocupen todo el ancho */
+    margin-left: 0.75rem;
+    transition: transform 0.3s ease, color 0.3s ease;
+    vertical-align: middle;
+  }
+  
+  #scrollTopBtn:hover {
+    transform: scale(1.2);
+    color: #ffa500;
+  }
+  
+  /* Footer decorado con patrón diagonal naranja */
+  footer {
+    margin-top: 2rem;
+    background-color: #000;
+    color: #fff;
+    padding: 1rem 1rem 2rem;
+    text-align: center;
+    font-size: 0.9rem;
+    position: relative;
+    z-index: 1;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  footer a {
+    color: #ff6600;
+    text-decoration: none;
+  }
+  
+  footer a:hover {
+    text-decoration: underline;
+  }
+  
+  footer::before {
+    content: "";
+    display: block;
+    height: 10px;
+    background-image: repeating-linear-gradient(
+      -45deg,
+      #ff6600,
+      #ff6600 10px,
+      transparent 10px,
+      transparent 20px
+    );
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+  
+  /* Tipografías personalizadas */
+  h1, .navbar-brand {
+    font-family: 'Inter', sans-serif;
+  }
+  
+  h4 {
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  /* Responsive */
+  @media (max-width: 576px) {
     form.row.gy-3 .col-md-2,
     form.row.gy-3 .col-md-3,
     form.row.gy-3 .col-md-4,
     form.row.gy-3 .col-md-6 {
-        flex: 0 0 100%;
-        max-width: 100%;
+      flex: 0 0 100%;
+      max-width: 100%;
     }
-
+  
     .btn {
-        font-size: 0.9rem;
+      font-size: 0.9rem;
     }
-
+  
     .modal-content {
-        font-size: 0.95rem;
+      font-size: 0.95rem;
     }
-
+  
     .table-responsive {
-        font-size: 0.9rem;
+      font-size: 0.9rem;
     }
-
+  
     #scrollTopBtn {
-        bottom: 15px;
-        right: 15px;
+      bottom: 15px;
+      right: 15px;
     }
-}
+  }
+  
